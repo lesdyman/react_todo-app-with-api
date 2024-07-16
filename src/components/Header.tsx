@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import { Todo } from '../types/Todo';
 import { useEffect } from 'react';
+import { TodoCount } from '../types/TodoCount';
 
 type Props = {
   todos: Todo[];
