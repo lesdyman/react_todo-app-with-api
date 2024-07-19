@@ -120,8 +120,6 @@ export const RegularTodo: React.FC<Props> = ({
         </button>
       )}
 
-      {/* overlay will cover the todo while it is being deleted or updated */}
-
       <div
         data-cy="TodoLoader"
         className={classNames('modal overlay', {

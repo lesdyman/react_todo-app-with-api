@@ -9,13 +9,8 @@ export const TempTodo: React.FC<Props> = ({ todo }) => (
     {/* eslint-disable jsx-a11y/label-has-associated-control */
     /*
         eslint-disable jsx-a11y/control-has-associated-label */}
-    <label className="todo__status-label" htmlFor={`${todo.id}`}>
-      <input
-        data-cy="TodoStatus"
-        type="checkbox"
-        className="todo__status"
-        id={`${todo.id}`}
-      />
+    <label className="todo__status-label">
+      <input data-cy="TodoStatus" type="checkbox" className="todo__status" />
     </label>
 
     <span data-cy="TodoTitle" className="todo__title">
@@ -26,7 +21,6 @@ export const TempTodo: React.FC<Props> = ({ todo }) => (
       ×
     </button>
 
-    {/* 'is-active' class puts this modal on top of the todo */}
     <div data-cy="TodoLoader" className="modal overlay is-active">
       <div className="modal-background has-background-white-ter" />
       <div className="loader" />

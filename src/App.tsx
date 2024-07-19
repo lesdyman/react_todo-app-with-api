@@ -21,6 +21,7 @@ import { Todo } from './types/Todo';
 import { Header } from './components/Header';
 import { TodosList } from './components/TodosList';
 import { Footer } from './components/Footer';
+import { ProcessStatus } from './types/ProcessStatus';
 
 export const App: React.FC = () => {
   const [currentTodos, setCurrentTodos] = useState<Todo[]>([]);
@@ -46,7 +47,6 @@ export const App: React.FC = () => {
   const handleError = (message: string) => {
     setErrorMessage(message);
     setShowError(true);
-    setIsLoading(false);
 
     setTimeout(() => setShowError(false), 3000);
     setIsLoading(false);
@@ -132,8 +132,8 @@ export const App: React.FC = () => {
   };
 
   const handleClearCompleted = async () => {
-    const completedItems = currentTodos.filter(todo => todo.completed);
-    const completedIds = completedItems.map(todo => todo.id);
+    const completedTodos = currentTodos.filter(todo => todo.completed);
+    const completedIds = completedTodos.map(todo => todo.id);
 
     setIdsProccesing(completedIds);
     try {
@@ -141,21 +141,21 @@ export const App: React.FC = () => {
         try {
           await deleteTodo(todo.id);
 
-          return { id: todo.id, status: 'resolved' };
+          return { id: todo.id, status: ProcessStatus.resolved };
         } catch {
           handleError(ErrorType.deleteError);
 
-          return { id: todo.id, status: 'rejected' };
+          return { id: todo.id, status: ProcessStatus.rejected };
         } finally {
           setIdsProccesing([]);
         }
       };
 
-      const responses = await Promise.all(completedItems.map(deleteCallBack));
+      const response = await Promise.all(completedTodos.map(deleteCallBack));
 
-      const successfulDeletedIds = responses
-        .filter(response => response.status === 'resolved')
-        .map(response => response.id);
+      const successfulDeletedIds = response
+        .filter(respond => respond.status === ProcessStatus.resolved)
+        .map(respond => respond.id);
 
       setCurrentTodos(prev =>
         prev.filter(todo => !successfulDeletedIds.includes(todo.id)),
@@ -187,7 +187,7 @@ export const App: React.FC = () => {
 
         setCurrentTodos(updatedTodos);
       } catch {
-        handleError('Unable to update todos');
+        handleError(ErrorType.updateError);
       } finally {
         setIdsProccesing([]);
       }
@@ -211,7 +211,7 @@ export const App: React.FC = () => {
         ),
       );
     } catch {
-      handleError('Unable to update todos');
+      handleError(ErrorType.updateError);
     } finally {
       setIdsProccesing([]);
     }
@@ -224,7 +224,7 @@ export const App: React.FC = () => {
         setCurrentTodos(todosFromServer);
       })
       .catch(() => {
-        handleError('Unable to load todos');
+        handleError(ErrorType.loadError);
       })
       .finally(() => {
         setIsLoading(false);

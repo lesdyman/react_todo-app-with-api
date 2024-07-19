@@ -37,7 +37,6 @@ export const TodosList: React.FC<Props> = ({
         />
       ))}
 
-      {/* This todo is in loadind state */}
       {tempTodo && <TempTodo todo={tempTodo} />}
     </section>
   );

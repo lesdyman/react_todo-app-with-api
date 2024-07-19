@@ -17,7 +17,7 @@ export const TodoForm: React.FC<Props> = ({ title, onSubmit, inputRef }) => {
 
   useEffect(() => {
     if (inputRef.current) {
-      inputRef.current.focus();
+      inputRef.current?.focus();
     }
   }, [inputRef]);
 
