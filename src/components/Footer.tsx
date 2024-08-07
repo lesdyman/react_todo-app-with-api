@@ -3,6 +3,7 @@ import '../styles/todoapp.scss';
 import React, { useState } from 'react';
 import { FilterType } from '../types/FilterType';
 import { Filter } from '../components/Filter';
+import { TodoCount } from '../types/TodoCount';
 
 type Props = {
   todoCount: TodoCount;

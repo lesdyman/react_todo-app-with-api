@@ -126,7 +126,6 @@ export const App: React.FC = () => {
       );
     } catch {
       handleError(ErrorType.updateError);
-      //  eslint-disable-next-line no-console
       throw new Error(ErrorType.updateError);
     }
   };
